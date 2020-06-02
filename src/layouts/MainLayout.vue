@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header>
+    <q-header class="bg-dark">
       <q-toolbar>
         <q-avatar @click="routeTo({name: 'Home'})" class="cursor-pointer" size="xl">
           <img src="../assets/logo.png">
@@ -18,17 +18,15 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
+
     export default {
         name: 'MainLayout',
 
         components: {},
 
-        data() {
-            return {
-                isLoggedIn: true,
-            }
-        },
         methods: {
+            ...mapGetters('auth', ['isAuthenticated']),
             routeTo(path) {
                 if (this.$router.currentRoute.name === path.name) {
                     return;
