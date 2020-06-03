@@ -10,6 +10,16 @@ body {
 }
 
 
+@font-face {
+  font-family: architects;
+  src: url("../assets/fonts/ArchitectsDaughter-Regular.ttf");
+}
+
+
+.architects {
+  font-family: architects;
+}
+
 .lobster {
   font-family: "lobster";
 }
