@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-center full-width">
+  <div class="row justify-center full-width q-ma-lg">
     <div
       class="col-12 text-center full-width architects text-dark text-h3 q-my-lg">
       My classes
@@ -9,28 +9,41 @@
         <q-separator style="width: 100%; height: 2px;" color="dark"/>
       </div>
     </div>
-    <div class="row justify-center full-width" v-if="!loading">
-
+    <div class="row justify-center full-width">
+      <q-card class="q-ma-sm my-card bg-primary text-center">
+        <q-icon name="add_circle" class="full-height full-width cursor-pointer" color="warning" @click="createClass"
+                size="xl">
+          <q-tooltip>
+            Add classroom
+          </q-tooltip>
+        </q-icon>
+      </q-card>
+      <MyClassItem class="q-ma-sm" v-for="classroom in classes" :key="classroom.id" :classroom="classroom"/>
     </div>
-    <LoadingCircle v-else/>
   </div>
 </template>
 
 <script>
-    import LoadingCircle from "./LoadingCircle";
+    import MyClassItem from "./MyClassItem";
 
     export default {
         name: "MyClasses",
-        components: {LoadingCircle},
+        props: ['classes'],
+        components: {MyClassItem},
         data() {
-            return {
-                loading: true
+            return {}
+        },
+        methods: {
+            createClass() {
+                console.log("slm")
             }
         }
-
     }
 </script>
 
 <style scoped>
-
+  .my-card {
+    width: 100%;
+    max-width: 280px;
+  }
 </style>

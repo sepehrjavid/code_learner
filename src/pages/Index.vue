@@ -66,9 +66,18 @@
         <q-toggle v-if="!alreadyHaveAnAccount" v-model="userInput.agreeWithTerms"
                   label="I accept the license and terms"/>
         <div class="row">
-          <q-btn class="col-3 q-ma-md" v-if="!alreadyHaveAnAccount" label="Sign up" type="submit" color="primary"
-                 rounded no-caps/>
-          <q-btn class="col-3 q-ma-md" v-else label="Login" type="submit" color="primary" rounded no-caps/>
+          <q-btn class="col-3 q-ma-md" v-if="!alreadyHaveAnAccount" :loading="signupLoading" label="Sign up"
+                 type="submit" color="primary" rounded no-caps>
+            <template v-slot:loading>
+              <q-spinner-hourglass/>
+            </template>
+          </q-btn>
+          <q-btn class="col-3 q-ma-md" v-else label="Login" :loading="loginLoading" type="submit" color="primary"
+                 rounded no-caps>
+            <template v-slot:loading>
+              <q-spinner-hourglass/>
+            </template>
+          </q-btn>
           <q-btn v-if="!alreadyHaveAnAccount" class="col-7 q-ma-md" label="Already have an account"
                  @click="alreadyHaveAnAccount=!alreadyHaveAnAccount" color="primary" rounded no-caps/>
           <q-btn v-else class="col-7 q-ma-md" label="Don't have an account"
@@ -87,6 +96,8 @@
         name: "Index",
         data() {
             return {
+                loginLoading: false,
+                signupLoading: false,
                 alreadyHaveAnAccount: false,
                 userInput: {
                     firstName: "",
@@ -108,14 +119,17 @@
                     })
                 }
                 if (this.alreadyHaveAnAccount) {
+                    this.loginLoading = true;
                     this.login({
                         username: this.userInput.email,
                         password: this.userInput.password
                     }).then(() => {
+                        this.loginLoading = false;
                         this.$router.replace({name: "DashboardHome"})
                     })
 
                 } else {
+                    this.signupLoading = true;
                     this.signup({
                         first_name: this.userInput.firstName,
                         last_name: this.userInput.lastName,
@@ -123,6 +137,7 @@
                         password: this.userInput.password,
                         age: this.userInput.age
                     }).then(() => {
+                        this.signupLoading = false;
                         this.$router.replace({name: "DashboardHome"})
                     })
                 }

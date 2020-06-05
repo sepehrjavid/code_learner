@@ -9,23 +9,17 @@
         <q-separator style="width: 100%; height: 2px;" color="dark"/>
       </div>
     </div>
-    <div class="row justify-center full-width" v-if="!loading">
+    <div class="row justify-center full-width">
 
     </div>
-    <LoadingCircle v-else/>
   </div>
 </template>
 
 <script>
-    import LoadingCircle from "./LoadingCircle";
-
     export default {
         name: "JoinedClasses",
-        components: {LoadingCircle},
         data() {
-            return {
-                loading: true
-            }
+            return {}
         }
     }
 </script>

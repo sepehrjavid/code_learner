@@ -2,11 +2,15 @@ import axios from 'axios';
 
 const state = {
   token: localStorage.getItem("BTIUToken") || '',
+  userData: null
 };
 
 const mutations = {
   login(state, token) {
     state.token = token
+  },
+  setUserData(state, payload) {
+    state.userData = payload
   }
 };
 
@@ -41,12 +45,24 @@ const actions = {
     localStorage.removeItem("BTIUToken");
     this.$router.push("/login");
   },
+  fetchUserData(context) {
+    return axios.get("http://127.0.0.1:8000/api/accounting/get_user_info").then((response) => {
+      context.commit('setUserData', response.data);
+      return response.data
+    })
+  }
 };
 
 
 const getters = {
   isAuthenticated: (state) => {
     return !!state.token
+  },
+  getUserData: (state) => {
+    return state.userData
+  },
+  isUserFetched: (state) => {
+    return state.userData !== null
   }
 };
 
