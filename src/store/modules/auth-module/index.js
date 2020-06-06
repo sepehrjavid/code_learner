@@ -43,7 +43,7 @@ const actions = {
     context.commit('login', null);
     axios.defaults.headers.common['Authorization'] = '';
     localStorage.removeItem("BTIUToken");
-    this.$router.push("/login");
+    this.$router.push({name: "Home"});
   },
   fetchUserData(context) {
     return axios.get("http://127.0.0.1:8000/api/accounting/get_user_info").then((response) => {
