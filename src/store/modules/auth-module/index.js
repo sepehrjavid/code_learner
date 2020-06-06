@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const state = {
-  token: localStorage.getItem("BTIUToken") || '',
+  token: localStorage.getItem("LearnOnlineToken") || '',
   userData: null
 };
 
@@ -11,6 +11,10 @@ const mutations = {
   },
   setUserData(state, payload) {
     state.userData = payload
+  },
+  setFirstNameAndLastName(state, payload) {
+    state.userData.fisrt_name = payload.first_name;
+    state.userData.last_name = payload.last_name
   }
 };
 
@@ -23,7 +27,7 @@ const actions = {
     ).then((response) => {
         let token = response.data.token;
         context.commit('login', token);
-        localStorage.setItem("BTIUToken", 'JWT ' + token);
+        localStorage.setItem("LearnOnlineToken", 'JWT ' + token);
         axios.defaults.headers.common['Authorization'] = 'JWT ' + token;
       }
     )
@@ -35,20 +39,25 @@ const actions = {
     ).then((response) => {
       let token = response.data.token;
       context.commit('login', token);
-      localStorage.setItem("BTIUToken", 'JWT ' + token);
+      localStorage.setItem("LearnOnlineToken", 'JWT ' + token);
       axios.defaults.headers.common['Authorization'] = 'JWT ' + token;
     });
   },
   logout(context) {
     context.commit('login', null);
     axios.defaults.headers.common['Authorization'] = '';
-    localStorage.removeItem("BTIUToken");
+    localStorage.removeItem("LearnOnlineToken");
     this.$router.push({name: "Home"});
   },
   fetchUserData(context) {
     return axios.get("http://127.0.0.1:8000/api/accounting/get_user_info").then((response) => {
       context.commit('setUserData', response.data);
       return response.data
+    })
+  },
+  editUser(context, payload) {
+    return axios.post("http://127.0.0.1:8000/api/accounting/edit", payload).then((response) => {
+      context.commit('setFirstNameAndLastName', payload)
     })
   }
 };

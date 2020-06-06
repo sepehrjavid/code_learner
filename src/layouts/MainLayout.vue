@@ -12,9 +12,9 @@
           </div>
         </div>
         <div class="cursor-pointer q-pa-sm" v-if="isUserFetched">
-          <q-btn-dropdown flat rounded dropdown-icon="person" label="Profile" no-caps no-icon-animation>
+          <q-btn-dropdown flat rounded dropdown-icon="person" :label="getFullName" no-caps no-icon-animation>
             <q-list class="bg-dark">
-              <q-item clickable v-close-popup @click="logout">
+              <q-item clickable v-close-popup @click="routeTo({name: 'EditProfile'})">
                 <q-item-section avatar>
                   <q-avatar text-color="white" icon="edit"/>
                 </q-item-section>
@@ -43,12 +43,15 @@
 </template>
 
 <script>
-    import {mapGetters, mapActions} from 'vuex'
+    import {mapActions, mapGetters} from 'vuex'
 
     export default {
         name: 'MainLayout',
         computed: {
-            ...mapGetters('auth', ['isAuthenticated', 'isUserFetched']),
+            ...mapGetters('auth', ['isAuthenticated', 'isUserFetched', 'getUserData']),
+            getFullName() {
+                return this.getUserData.first_name + " " + this.getUserData.last_name
+            }
         },
         methods: {
             ...mapActions('auth', ['logout']),
