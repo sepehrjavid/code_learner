@@ -8,8 +8,8 @@
     <q-card-actions>
       <div class="row full-width">
         <div class="col text-center q-pa-xs">
-          <q-btn class="full-height text-dark architects text-weight-bold" text-color="primary" color="warning">
-            start class
+          <q-btn class="full-height architects text-weight-bold" text-color="primary" color="warning">
+            Start class
           </q-btn>
         </div>
         <div class="col">
@@ -31,14 +31,14 @@
           </div>
           <div class="row justify-center">
             <div class="row q-pa-xs">
-              <q-btn color="primary" icon="description">
+              <q-btn color="accent" icon="description">
                 <q-tooltip>
                   Quizzes
                 </q-tooltip>
               </q-btn>
             </div>
             <div class="row q-pa-xs">
-              <q-btn color="accent" icon="person">
+              <q-btn color="primary" icon="person">
                 <q-tooltip>
                   Owners
                 </q-tooltip>

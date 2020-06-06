@@ -1,7 +1,8 @@
 <template>
   <div v-if="!loading">
     <my-classes :classes="this.user.created_classes"/>
-    <joined-classes/>
+    <owned-classes :classes="this.user.owned_classes"/>
+    <joined-classes :classes="this.user.joined_classes"/>
     <my-chats/>
   </div>
   <LoadingCircle v-else/>
@@ -14,11 +15,12 @@
     import MyChats from "../components/MyChats";
     import {mapActions, mapGetters} from 'vuex'
     import LoadingCircle from "../components/LoadingCircle";
+    import OwnedClasses from "../components/OwnedClasses";
 
 
     export default {
         name: "DashboardHome",
-        components: {LoadingCircle, MyChats, JoinedClasses, MyClasses},
+        components: {OwnedClasses, LoadingCircle, MyChats, JoinedClasses, MyClasses},
         data() {
             return {
                 user: {},

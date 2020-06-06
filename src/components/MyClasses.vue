@@ -1,7 +1,7 @@
 <template>
-  <div class="row justify-center full-width q-ma-lg">
+  <div class="row justify-center full-width q-ma-xl">
     <div
-      class="col-12 text-center full-width architects text-dark text-h3 q-my-lg">
+      class="col-12 text-center full-width architects text-dark text-h2 text-weight-bold q-my-lg">
       My classes
     </div>
     <div class="col-12 row justify-center q-my-md full-width">

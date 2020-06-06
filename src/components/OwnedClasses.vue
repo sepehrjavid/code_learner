@@ -1,8 +1,8 @@
 <template>
   <div class="row justify-center full-width q-ma-xl">
     <div
-      class="col-12 text-center architects full-width text-dark text-h2 text-weight-bold q-my-lg">
-      My chats
+      class="col-12 text-center full-width architects text-weight-bold text-dark text-h2 q-my-lg">
+      Owned classes
     </div>
     <div class="col-12 row justify-center q-my-md full-width">
       <div style="width: 60%">
@@ -10,17 +10,18 @@
       </div>
     </div>
     <div class="row justify-center full-width">
-
+      <OwnedClassItem class="q-ma-sm" v-for="classroom in classes" :key="classroom.id" :classroom="classroom"/>
     </div>
   </div>
 </template>
 
 <script>
+    import OwnedClassItem from "./OwnedClassItem";
+
     export default {
-        name: "MyChats",
-        data() {
-            return {}
-        }
+        components: {OwnedClassItem},
+        props: ['classes'],
+        name: "OwnedClasses"
     }
 </script>
 

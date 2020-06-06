@@ -1,7 +1,7 @@
 <template>
-  <div class="row justify-center full-width">
+  <div class="row justify-center full-width q-ma-xl">
     <div
-      class="col-12 text-center architects full-width text-dark text-h3 q-my-lg">
+      class="col-12 text-center architects full-width text-dark text-h2 q-my-lg text-weight-bold">
       Joined classes
     </div>
     <div class="col-12 row justify-center q-my-md full-width">
@@ -10,13 +10,17 @@
       </div>
     </div>
     <div class="row justify-center full-width">
-
+      <JoinedClassItem class="q-ma-sm" v-for="classroom in classes" :key="classroom.id" :classroom="classroom"/>
     </div>
   </div>
 </template>
 
 <script>
+    import JoinedClassItem from "./JoinedClassItem";
+
     export default {
+        props: ['classes'],
+        components: {JoinedClassItem},
         name: "JoinedClasses",
         data() {
             return {}
