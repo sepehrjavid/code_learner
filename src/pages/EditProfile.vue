@@ -52,6 +52,7 @@
                     last_name: this.userInput.lastName
                 }).then(() => {
                     this.buttonLoading = false;
+                    this.$router.replace({name: "DashboardHome"});
                 }).catch(() => {
                     this.$q.notify({
                         message: "Cannot connect to the server",

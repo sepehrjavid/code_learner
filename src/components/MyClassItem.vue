@@ -15,7 +15,7 @@
         <div class="col">
           <div class="row justify-center">
             <div class="row q-pa-xs">
-              <q-btn color="negative" icon="delete">
+              <q-btn color="negative" icon="delete" :loading="deleteLoading" @click="deactivateClassroom">
                 <q-tooltip>
                   Delete class
                 </q-tooltip>
@@ -52,11 +52,24 @@
 </template>
 
 <script>
+    import {mapActions} from 'vuex'
+
     export default {
         name: "MyClassItem",
         props: ['classroom'],
         data() {
-            return {}
+            return {
+                deleteLoading: false
+            }
+        },
+        methods: {
+            ...mapActions('classroom', ['deactivate']),
+            deactivateClassroom() {
+                this.deleteLoading = true;
+                this.deactivate(this.classroom.id).then(() => {
+                    this.deleteLoading = false;
+                })
+            }
         }
     }
 </script>

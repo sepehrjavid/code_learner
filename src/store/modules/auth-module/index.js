@@ -15,6 +15,11 @@ const mutations = {
   setFirstNameAndLastName(state, payload) {
     state.userData.fisrt_name = payload.first_name;
     state.userData.last_name = payload.last_name
+  },
+  removeDeactivatedClass(state, payload) {
+    state.userData.created_classes = state.userData.created_classes.filter((classroom) => {
+      return classroom.id !== payload;
+    })
   }
 };
 
@@ -56,7 +61,7 @@ const actions = {
     })
   },
   editUser(context, payload) {
-    return axios.post("http://127.0.0.1:8000/api/accounting/edit", payload).then((response) => {
+    return axios.put("http://127.0.0.1:8000/api/accounting/edit", payload).then((response) => {
       context.commit('setFirstNameAndLastName', payload)
     })
   }
