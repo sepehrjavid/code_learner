@@ -1,5 +1,6 @@
 <template>
   <div v-if="!loading">
+    <search-classroom/>
     <my-classes :classes="this.user.created_classes"/>
     <owned-classes :classes="this.user.owned_classes"/>
     <joined-classes :classes="this.user.joined_classes"/>
@@ -16,11 +17,12 @@
     import {mapActions, mapGetters} from 'vuex'
     import LoadingCircle from "../components/LoadingCircle";
     import OwnedClasses from "../components/OwnedClasses";
+    import SearchClassroom from "../components/SearchClassroom";
 
 
     export default {
         name: "DashboardHome",
-        components: {OwnedClasses, LoadingCircle, MyChats, JoinedClasses, MyClasses},
+        components: {SearchClassroom, OwnedClasses, LoadingCircle, MyChats, JoinedClasses, MyClasses},
         data() {
             return {
                 user: {},

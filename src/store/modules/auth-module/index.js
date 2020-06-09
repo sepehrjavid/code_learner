@@ -58,6 +58,8 @@ const actions = {
     return axios.get("http://127.0.0.1:8000/api/accounting/get_user_info").then((response) => {
       context.commit('setUserData', response.data);
       return response.data
+    }).catch((response) => {
+      context.dispatch('logout');
     })
   },
   editUser(context, payload) {

@@ -12,27 +12,36 @@
           </div>
         </div>
         <div class="cursor-pointer q-pa-sm" v-if="isUserFetched">
-          <q-btn-dropdown flat rounded dropdown-icon="person" :label="getFullName" no-caps no-icon-animation>
-            <q-list class="bg-dark">
-              <q-item clickable v-close-popup @click="routeTo({name: 'EditProfile'})">
-                <q-item-section avatar>
-                  <q-avatar text-color="white" icon="edit"/>
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label class="text-white">Edit</q-item-label>
-                </q-item-section>
-              </q-item>
-
-              <q-item clickable v-close-popup @click="logout">
-                <q-item-section avatar>
-                  <q-avatar text-color="white" icon="logout"/>
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label class="text-white">Logout</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-btn-dropdown>
+          <q-btn flat rounded icon="person" :label="getFullName" no-caps>
+            <q-menu transition-show="flip-right" transition-hide="flip-left">
+              <q-list class="bg-dark">
+                <q-item clickable v-close-popup @click="routeTo({name: 'EditProfile'})">
+                  <q-item-section avatar>
+                    <q-avatar text-color="white" icon="edit"/>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label class="text-white">Edit Profile</q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item clickable v-close-popup @click="routeTo({name: 'EditProfile'})">
+                  <q-item-section avatar>
+                    <q-avatar text-color="white" icon="password"/>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label class="text-white">Change Password</q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item clickable v-close-popup @click="logout">
+                  <q-item-section avatar>
+                    <q-avatar text-color="white" icon="logout"/>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label class="text-white">Logout</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
         </div>
       </q-toolbar>
     </q-header>
