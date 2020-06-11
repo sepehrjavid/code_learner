@@ -126,6 +126,12 @@
                     }).then(() => {
                         this.loginLoading = false;
                         this.$router.replace({name: "DashboardHome"})
+                    }).catch((e) => {
+                        this.loginLoading = false;
+                        this.$q.notify({
+                            message: e,
+                            type: "negative",
+                        })
                     })
 
                 } else {

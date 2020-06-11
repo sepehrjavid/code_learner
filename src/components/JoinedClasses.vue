@@ -9,9 +9,10 @@
         <q-separator style="width: 100%; height: 2px;" color="dark"/>
       </div>
     </div>
-    <div class="row justify-center full-width">
+    <div v-if="classes.length !== 0" class="row justify-center full-width">
       <JoinedClassItem class="q-ma-sm" v-for="classroom in classes" :key="classroom.id" :classroom="classroom"/>
     </div>
+    <div v-else class="text-dark text-h4 text-weight-bold architects q-pa-xl">You have't joined any classes yet</div>
   </div>
 </template>
 

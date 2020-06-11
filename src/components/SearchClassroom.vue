@@ -9,6 +9,9 @@
         </template>
         <q-menu class="full-width bg-dark" dark fit v-model="showMenu" no-focus no-refocus>
           <q-list class="architects text-weight-bold">
+            <q-item v-if="getSearchedClasses.length === 0" dense>
+              <q-item-section>No results</q-item-section>
+            </q-item>
             <q-item v-for="classroom in getSearchedClasses" :key="classroom.id" clickable dense
                     @click="selectClassroom(classroom.id)" v-close-popup>
               <q-item-section>{{classroom.name}}</q-item-section>
@@ -32,7 +35,6 @@
                 showMenu: false,
                 query: '',
                 loading: false,
-                selectedClassroom: {},
                 showDialog: true,
                 options: [
                     "sds",

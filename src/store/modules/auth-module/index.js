@@ -35,7 +35,9 @@ const actions = {
         localStorage.setItem("LearnOnlineToken", 'JWT ' + token);
         axios.defaults.headers.common['Authorization'] = 'JWT ' + token;
       }
-    )
+    ).catch((response) => {
+      throw response.data
+    })
   },
   signup(context, payload) {
     return axios.post(

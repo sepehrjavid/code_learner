@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" class="gradient">
     <q-header class="bg-dark">
       <q-toolbar class="justify-between">
         <div class="row">
