@@ -45,6 +45,8 @@ const actions = {
   createClass(context, payload) {
     return axios.post("http://127.0.0.1:8000/api/classrooms/create", payload).catch((response) => {
       throw response.data.name
+    }).then((response) => {
+      context.commit('auth/addCreatedClass', response.data, {root: true});
     })
   }
 };

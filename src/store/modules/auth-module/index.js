@@ -20,6 +20,15 @@ const mutations = {
     state.userData.created_classes = state.userData.created_classes.filter((classroom) => {
       return classroom.id !== payload;
     })
+  },
+  addCreatedClass(state, payload){
+    state.userData.created_classes.push({
+      id: payload.id,
+      creator: payload.creator,
+      description: payload.description,
+      name: payload.name,
+      is_online: false
+    })
   }
 };
 

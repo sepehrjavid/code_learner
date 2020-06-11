@@ -62,6 +62,21 @@
             use-chips
             behavior="menu"
           >
+            <template v-slot:option="scope">
+              <q-item
+                v-bind="scope.itemProps"
+                v-on="scope.itemEvents"
+                class="architects bg-dark text-white text-weight-bold"
+              >
+                <q-item-section avatar>
+                  <q-icon name="person" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>{{ scope.opt.email }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </template>
+
             <template v-slot:no-option>
               <q-item>
                 <q-item-section class="text-grey">
@@ -125,15 +140,24 @@
                 })
             },
             submitCreateForm() {
+                let owners = [];
+                this.userInput.owners.forEach(((value) => {
+                    owners.push(value.id)
+                }));
                 this.createClass({
                     name: this.userInput.name,
                     description: this.userInput.description,
-                    other_owners: this.userInput.owners
+                    other_owners: owners
                 }).catch((e) => {
                     this.$q.notify({
                         message: e,
                         type: "negative",
                     })
+                }).then(() => {
+                    this.showDialog = false;
+                    this.userInput.name = "";
+                    this.userInput.description = "";
+                    this.userInput.owners = [];
                 })
             }
         }
