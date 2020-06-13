@@ -11,7 +11,7 @@
         <img src="../assets/logo-scaled.png" style="margin: auto">
       </div>
     </div>
-    <q-card class="q-pa-sm col-12 col-md-6 bg-info" style="margin: auto;border-radius: 5%; max-width: 600px">
+    <q-card class="q-pa-sm col-12 col-md-6 bg-warning" style="margin: auto;border-radius: 5%; max-width: 600px">
       <q-form @submit="submitForm" class="q-gutter-md" style="max-width: 400px; margin: auto">
 
         <q-input
@@ -66,23 +66,23 @@
         <q-toggle v-if="!alreadyHaveAnAccount" v-model="userInput.agreeWithTerms"
                   label="I accept the license and terms"/>
         <div class="row">
-          <q-btn class="col-3 q-ma-md" v-if="!alreadyHaveAnAccount" :loading="signupLoading" label="Sign up"
-                 type="submit" color="primary" rounded no-caps>
+          <q-btn class="col-3 q-ma-md architects text-weight-bold text-white" v-if="!alreadyHaveAnAccount"
+                 :loading="signupLoading" label="Sign up" type="submit" color="dark" rounded no-caps>
             <template v-slot:loading>
               <q-spinner-hourglass/>
             </template>
           </q-btn>
-          <q-btn class="col-3 q-ma-md" v-else label="Login" :loading="loginLoading" type="submit" color="primary"
-                 rounded no-caps>
+          <q-btn class="col-3 q-ma-md architects text-white text-weight-bold" v-else label="Login"
+                 :loading="loginLoading" type="submit" color="dark" rounded no-caps>
             <template v-slot:loading>
               <q-spinner-hourglass/>
             </template>
           </q-btn>
-          <q-btn v-if="!alreadyHaveAnAccount" class="col-7 q-ma-md" label="Already have an account"
-                 @click="alreadyHaveAnAccount=!alreadyHaveAnAccount" color="primary" rounded no-caps/>
-          <q-btn v-else class="col-7 q-ma-md" label="Don't have an account"
-                 @click="alreadyHaveAnAccount=!alreadyHaveAnAccount"
-                 color="primary" rounded no-caps/>
+          <q-btn v-if="!alreadyHaveAnAccount" class="col-7 q-ma-md architects text-weight-bold text-white"
+                 label="Already have an account" @click="alreadyHaveAnAccount=!alreadyHaveAnAccount" color="dark"
+                 rounded no-caps/>
+          <q-btn v-else class="col-7 q-ma-md architects text-white text-weight-bold" label="Don't have an account"
+                 @click="alreadyHaveAnAccount=!alreadyHaveAnAccount" color="dark" rounded no-caps/>
         </div>
       </q-form>
     </q-card>

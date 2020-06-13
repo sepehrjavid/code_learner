@@ -7,7 +7,8 @@ const routes = [
     },
     children: [
       {path: 'home', name: "DashboardHome", component: () => import('pages/DashboardHome.vue')},
-      {path: 'editProfile', name: "EditProfile", component: () => import('pages/EditProfile.vue')}
+      {path: 'editProfile', name: "EditProfile", component: () => import('pages/EditProfile.vue')},
+      {path: 'changePassword', name: "ChangePassword", component: () => import('pages/ChangePassword.vue')}
     ]
   },
   {

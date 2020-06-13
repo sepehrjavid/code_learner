@@ -23,9 +23,9 @@
                     <q-item-label class="text-white">Edit Profile</q-item-label>
                   </q-item-section>
                 </q-item>
-                <q-item clickable v-close-popup @click="routeTo({name: 'EditProfile'})">
+                <q-item clickable v-close-popup @click="routeTo({name: 'ChangePassword'})">
                   <q-item-section avatar>
-                    <q-avatar text-color="white" icon="password"/>
+                    <q-avatar text-color="white" icon="lock"/>
                   </q-item-section>
                   <q-item-section>
                     <q-item-label class="text-white">Change Password</q-item-label>

@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-lg bg-info" style="max-width: 500px; margin: 10px auto; border-radius: 10%;">
+  <q-card class="q-pa-lg bg-warning" style="max-width: 500px; margin: 10px auto; border-radius: 10%;">
     <q-form class="text-center" @submit="submitForm">
       <q-input
         rounded
@@ -17,7 +17,8 @@
         :rules="[ val => val && val.length > 0 || 'Please type something']"
       />
 
-      <q-btn :loading="buttonLoading" label="Submit" type="submit" color="primary" rounded no-caps>
+      <q-btn :loading="buttonLoading" class="architects text-white text-weight-bold" label="Submit" type="submit"
+             color="dark" style="width: 110px" rounded no-caps>
         <template v-slot:loading>
           <q-spinner-hourglass/>
         </template>

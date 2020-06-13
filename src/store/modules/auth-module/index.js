@@ -21,7 +21,7 @@ const mutations = {
       return classroom.id !== payload;
     })
   },
-  addCreatedClass(state, payload){
+  addCreatedClass(state, payload) {
     state.userData.created_classes.push({
       id: payload.id,
       creator: payload.creator,
@@ -76,6 +76,11 @@ const actions = {
   editUser(context, payload) {
     return axios.put("http://127.0.0.1:8000/api/accounting/edit", payload).then((response) => {
       context.commit('setFirstNameAndLastName', payload)
+    })
+  },
+  changePassword(context, payload) {
+    return axios.post("http://127.0.0.1:8000/api/accounting/change_password", payload).catch((error) => {
+      throw error.response.data
     })
   }
 };

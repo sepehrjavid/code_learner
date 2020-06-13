@@ -41,7 +41,7 @@
             class="q-ma-lg"
             type="textarea"
             label="Class description"
-            hint="Can be black but we strongly recommend to describe your class"
+            hint="Can be blank but we strongly recommend to describe your class"
           />
 
           <q-select
@@ -69,7 +69,7 @@
                 class="architects bg-dark text-white text-weight-bold"
               >
                 <q-item-section avatar>
-                  <q-icon name="person" />
+                  <q-icon name="person"/>
                 </q-item-section>
                 <q-item-section>
                   <q-item-label>{{ scope.opt.email }}</q-item-label>
@@ -144,11 +144,20 @@
                 this.userInput.owners.forEach(((value) => {
                     owners.push(value.id)
                 }));
-                this.createClass({
-                    name: this.userInput.name,
-                    description: this.userInput.description,
-                    other_owners: owners
-                }).catch((e) => {
+                let data = {};
+                if (this.userInput.description === "") {
+                    data = {
+                        name: this.userInput.name,
+                        other_owners: owners
+                    }
+                } else {
+                    data = {
+                        name: this.userInput.name,
+                        description: this.userInput.description === "" ? null : this.userInput.description,
+                        other_owners: owners
+                    }
+                }
+                this.createClass(data).catch((e) => {
                     this.$q.notify({
                         message: e,
                         type: "negative",
