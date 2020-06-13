@@ -54,7 +54,7 @@
             }
         },
         methods: {
-            ...mapActions('auth', ['changePassword']),
+            ...mapActions('profile', ['changePassword']),
             submitForm() {
                 this.buttonLoading = true;
                 if (this.userInput.newPasswordReEnter !== this.userInput.newPassword) {

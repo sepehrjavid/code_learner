@@ -27,10 +27,10 @@
             }
         },
         methods: {
-            ...mapActions('auth', ['fetchUserData'])
+            ...mapActions('profile', ['fetchUserData'])
         },
         computed: {
-            ...mapGetters('auth', ['getUserData', 'isUserFetched'])
+            ...mapGetters('profile', ['getUserData', 'isUserFetched'])
         },
         async mounted() {
             this.loading = true;

@@ -57,7 +57,8 @@
     export default {
         name: 'MainLayout',
         computed: {
-            ...mapGetters('auth', ['isAuthenticated', 'isUserFetched', 'getUserData']),
+            ...mapGetters('auth', ['isAuthenticated']),
+            ...mapGetters('profile', ['isUserFetched', 'getUserData']),
             getFullName() {
                 return this.getUserData.first_name + " " + this.getUserData.last_name
             }

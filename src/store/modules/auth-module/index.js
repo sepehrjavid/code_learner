@@ -2,34 +2,12 @@ import axios from 'axios';
 
 const state = {
   token: localStorage.getItem("LearnOnlineToken") || '',
-  userData: null
 };
 
 const mutations = {
   login(state, token) {
     state.token = token
   },
-  setUserData(state, payload) {
-    state.userData = payload
-  },
-  setFirstNameAndLastName(state, payload) {
-    state.userData.fisrt_name = payload.first_name;
-    state.userData.last_name = payload.last_name
-  },
-  removeDeactivatedClass(state, payload) {
-    state.userData.created_classes = state.userData.created_classes.filter((classroom) => {
-      return classroom.id !== payload;
-    })
-  },
-  addCreatedClass(state, payload) {
-    state.userData.created_classes.push({
-      id: payload.id,
-      creator: payload.creator,
-      description: payload.description,
-      name: payload.name,
-      is_online: false
-    })
-  }
 };
 
 
@@ -65,24 +43,6 @@ const actions = {
     localStorage.removeItem("LearnOnlineToken");
     this.$router.push({name: "Home"});
   },
-  fetchUserData(context) {
-    return axios.get("http://127.0.0.1:8000/api/accounting/get_user_info").then((response) => {
-      context.commit('setUserData', response.data);
-      return response.data
-    }).catch((response) => {
-      context.dispatch('logout');
-    })
-  },
-  editUser(context, payload) {
-    return axios.put("http://127.0.0.1:8000/api/accounting/edit", payload).then((response) => {
-      context.commit('setFirstNameAndLastName', payload)
-    })
-  },
-  changePassword(context, payload) {
-    return axios.post("http://127.0.0.1:8000/api/accounting/change_password", payload).catch((error) => {
-      throw error.response.data
-    })
-  }
 };
 
 
@@ -90,12 +50,6 @@ const getters = {
   isAuthenticated: (state) => {
     return !!state.token
   },
-  getUserData: (state) => {
-    return state.userData
-  },
-  isUserFetched: (state) => {
-    return state.userData !== null
-  }
 };
 
 export default {

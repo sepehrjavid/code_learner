@@ -33,7 +33,7 @@
     export default {
         name: "EditProfile",
         computed: {
-            ...mapGetters('auth', ['getUserData'])
+            ...mapGetters('profile', ['getUserData'])
         },
         data() {
             return {
@@ -45,7 +45,7 @@
             }
         },
         methods: {
-            ...mapActions('auth', ['editUser']),
+            ...mapActions('profile', ['editUser']),
             submitForm() {
                 this.buttonLoading = true;
                 this.editUser({

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import auth from './modules/auth-module/index'
 import classroom from './modules/classroom-module/index'
+import profile from './modules/profile-module/index'
 // import example from './module-example'
 
 Vue.use(Vuex)
@@ -19,7 +20,8 @@ export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       auth,
-      classroom
+      classroom,
+      profile
     },
 
     // enable strict mode (adds overhead!)

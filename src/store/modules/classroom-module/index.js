@@ -18,7 +18,7 @@ const mutations = {
 const actions = {
   deactivate(context, id) {
     return axios.delete("http://127.0.0.1:8000/api/classrooms/deactivate/" + id.toString()).then((response) => {
-      context.commit('auth/removeDeactivatedClass', id, {root: true});
+      context.commit('profile/removeDeactivatedClass', id, {root: true});
     })
   },
   searchForClassrooms(context, query) {
@@ -46,7 +46,7 @@ const actions = {
     return axios.post("http://127.0.0.1:8000/api/classrooms/create", payload).catch((error) => {
       throw error.response.data.name
     }).then((response) => {
-      context.commit('auth/addCreatedClass', response.data, {root: true});
+      context.commit('profile/addCreatedClass', response.data, {root: true});
     })
   }
 };
