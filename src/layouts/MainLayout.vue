@@ -15,6 +15,14 @@
           <q-btn flat rounded icon="person" :label="getFullName" no-caps>
             <q-menu transition-show="flip-right" transition-hide="flip-left">
               <q-list class="bg-dark">
+                <q-item clickable v-close-popup @click="routeTo({name: 'Home'})">
+                  <q-item-section avatar>
+                    <q-avatar text-color="white" icon="home"/>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label class="text-white">Home</q-item-label>
+                  </q-item-section>
+                </q-item>
                 <q-item clickable v-close-popup @click="routeTo({name: 'EditProfile'})">
                   <q-item-section avatar>
                     <q-avatar text-color="white" icon="edit"/>

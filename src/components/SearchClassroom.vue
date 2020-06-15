@@ -49,6 +49,9 @@
         methods: {
             ...mapActions('classroom', ['searchForClassrooms']),
             searchClassroom() {
+                if (this.query === ''){
+                    return
+                }
                 this.showMenu = true;
                 this.loading = true;
                 this.searchForClassrooms(this.query).then(() => {

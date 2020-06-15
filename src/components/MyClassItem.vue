@@ -1,75 +1,185 @@
 <template>
-  <q-card class="my-card">
-    <q-card-section class="bg-primary">
-      <div class="text-white text-h5 architects text-center">{{classroom.name}}</div>
-      <div class="text-subtitle1 text-white architects text-center">by {{classroom.creator.name}}</div>
-    </q-card-section>
-    <q-separator/>
-    <q-card-actions>
-      <div class="row full-width">
-        <div class="col text-center q-pa-xs">
-          <q-btn class="full-height architects text-weight-bold" text-color="primary" color="warning">
-            Start class
+  <div class="my-card">
+    <q-card>
+      <q-card-section class="bg-primary">
+        <div class="text-white text-h5 architects text-center">{{classroom.name}}</div>
+      </q-card-section>
+      <q-separator/>
+      <q-card-actions>
+        <div class="row full-width">
+          <div class="col text-center q-pa-xs">
+            <q-btn class="full-height architects text-weight-bold" text-color="primary" color="warning">
+              Start class
+            </q-btn>
+          </div>
+          <div class="col">
+            <div class="row justify-center">
+              <div class="row q-pa-xs">
+                <q-btn color="negative" icon="delete" :loading="deleteLoading" @click="deactivateClassroom">
+                  <q-tooltip>
+                    Delete class
+                  </q-tooltip>
+                </q-btn>
+              </div>
+              <div class="row q-pa-xs">
+                <q-btn color="dark" icon="edit">
+                  <q-tooltip>
+                    Edit name
+                  </q-tooltip>
+                </q-btn>
+              </div>
+            </div>
+            <div class="row justify-center">
+              <div class="row q-pa-xs">
+                <q-btn color="accent" icon="description">
+                  <q-tooltip>
+                    Quizzes
+                  </q-tooltip>
+                </q-btn>
+              </div>
+              <div class="row q-pa-xs">
+                <q-btn color="primary" icon="person" @click="ownersDialog = true">
+                  <q-tooltip>
+                    Owners
+                  </q-tooltip>
+                </q-btn>
+              </div>
+            </div>
+          </div>
+        </div>
+      </q-card-actions>
+    </q-card>
+    <q-dialog v-model="ownersDialog" transition-show="scale" transition-hide="scale">
+      <q-card class="full-width bg-warning">
+        <div class="row justify-center q-pa-lg q-ma-md text-h4 text-weight-bold text-dark architects">Add Owners</div>
+        <q-form class="text-center" @submit="addOwner">
+          <q-select
+            v-model="userInput.owners"
+            use-input
+            rounded
+            outlined
+            class="q-ma-lg"
+            input-debounce="1000"
+            label="Select owners"
+            option-value="id"
+            option-label="name"
+            @filter="searchUser"
+            hint="Enter the email of the users you want to set as owners for your class.
+            You can clear it if you want no one to own this class other than you."
+            multiple
+            :options="options"
+            use-chips
+            behavior="menu"
+          >
+            <template v-slot:option="scope">
+              <q-item
+                v-bind="scope.itemProps"
+                v-on="scope.itemEvents"
+                class="architects bg-dark text-white text-weight-bold"
+              >
+                <q-item-section avatar>
+                  <q-icon name="person"/>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>{{ scope.opt.name }}</q-item-label>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>{{ scope.opt.email }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </template>
+
+            <template v-slot:no-option>
+              <q-item class="architects bg-dark text-white text-weight-bold">
+                <q-item-section>
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-select>
+
+          <q-btn type="submit" color="dark" class="architects text-white q-ma-lg text-weight-bold"
+                 :loading="addOwnerLoading" rounded style="width: 110px">
+            Add
+            <template v-slot:loading>
+              <q-spinner-hourglass class="on-left"/>
+              Loading...
+            </template>
           </q-btn>
-        </div>
-        <div class="col">
-          <div class="row justify-center">
-            <div class="row q-pa-xs">
-              <q-btn color="negative" icon="delete" :loading="deleteLoading" @click="deactivateClassroom">
-                <q-tooltip>
-                  Delete class
-                </q-tooltip>
-              </q-btn>
-            </div>
-            <div class="row q-pa-xs">
-              <q-btn color="dark" icon="edit">
-                <q-tooltip>
-                  Edit name
-                </q-tooltip>
-              </q-btn>
-            </div>
-          </div>
-          <div class="row justify-center">
-            <div class="row q-pa-xs">
-              <q-btn color="accent" icon="description">
-                <q-tooltip>
-                  Quizzes
-                </q-tooltip>
-              </q-btn>
-            </div>
-            <div class="row q-pa-xs">
-              <q-btn color="primary" icon="person">
-                <q-tooltip>
-                  Owners
-                </q-tooltip>
-              </q-btn>
-            </div>
-          </div>
-        </div>
-      </div>
-    </q-card-actions>
-  </q-card>
+        </q-form>
+      </q-card>
+    </q-dialog>
+  </div>
 </template>
 
 <script>
-    import {mapActions} from 'vuex'
+    import {mapActions, mapGetters} from 'vuex'
 
     export default {
         name: "MyClassItem",
         props: ['classroom'],
         data() {
             return {
-                deleteLoading: false
+                deleteLoading: false,
+                addOwnerLoading: false,
+                ownersDialog: false,
+                userInput: {
+                    owners: []
+                },
+                options: []
             }
         },
+        computed: {
+            ...mapGetters('classroom', ['getSearchedUsers']),
+        },
         methods: {
-            ...mapActions('classroom', ['deactivate']),
+            ...mapActions('classroom', ['deactivate', 'searchForUser', 'addOwnerToClass']),
             deactivateClassroom() {
                 this.deleteLoading = true;
                 this.deactivate(this.classroom.id).then(() => {
                     this.deleteLoading = false;
                 })
+            },
+            searchUser(val, update) {
+                if (val === '') {
+                    update(() => {
+                        this.options = this.getSearchedUsers
+                    });
+                    return
+                }
+
+                update(() => {
+                    this.searchForUser(val).then(() => {
+                        this.options = this.getSearchedUsers
+                    })
+                })
+            },
+            addOwner() {
+                this.addOwnerLoading = true;
+                let owners = [];
+                this.userInput.owners.forEach(((value) => {
+                    owners.push(value.id)
+                }));
+                this.addOwnerToClass({id: this.classroom.id, body: {owners: owners}}).then(() => {
+                    this.addOwnerLoading = false
+                }).catch((e) => {
+                    this.addOwnerLoading = false;
+                    this.$q.notify({
+                        message: e,
+                        type: "negative",
+                    })
+                })
             }
+        },
+        mounted() {
+            let currentOwners = this.classroom.other_owners;
+            currentOwners.forEach((value) => {
+                this.userInput.owners.push({
+                    email: value.email,
+                    name: value.name,
+                    id: value.id
+                })
+            })
         }
     }
 </script>

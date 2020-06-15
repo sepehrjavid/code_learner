@@ -53,7 +53,7 @@
             input-debounce="1000"
             label="Select owners"
             option-value="id"
-            option-label="email"
+            option-label="name"
             @filter="searchUser"
             hint="Enter the email of the users you want to set as owners for your class.
             You can skip this part if you want no one to own this class other than you."
@@ -72,14 +72,17 @@
                   <q-icon name="person"/>
                 </q-item-section>
                 <q-item-section>
+                  <q-item-label>{{ scope.opt.name }}</q-item-label>
+                </q-item-section>
+                <q-item-section>
                   <q-item-label>{{ scope.opt.email }}</q-item-label>
                 </q-item-section>
               </q-item>
             </template>
 
             <template v-slot:no-option>
-              <q-item>
-                <q-item-section class="text-grey">
+              <q-item class="architects bg-dark text-white text-weight-bold">
+                <q-item-section>
                   No results
                 </q-item-section>
               </q-item>
