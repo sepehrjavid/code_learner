@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!loading">
+  <div v-if="!loading && user !== null">
     <search-classroom/>
     <my-classes :classes="this.user.created_classes"/>
     <owned-classes :classes="this.user.owned_classes"/>
@@ -21,7 +21,7 @@
         components: {SearchClassroom, OwnedClasses, LoadingCircle, JoinedClasses, MyClasses},
         data() {
             return {
-                user: {},
+                user: null,
                 loading: false,
                 showDialog: true
             }

@@ -50,9 +50,8 @@ const actions = {
     })
   },
   addOwnerToClass(context, payload) {
-    console.log(payload)
     return axios.put("http://127.0.0.1:8000/api/classrooms/add_owner/" + payload.id.toString(), payload.body).then((response) => {
-      //TODO refresh page
+      context.commit('profile/updateOtherOwners', response.data, {root: true});
     }).catch((error) => {
       throw error.response.data.owners
     })

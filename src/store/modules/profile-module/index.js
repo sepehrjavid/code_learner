@@ -23,7 +23,15 @@ const mutations = {
       creator: payload.creator,
       description: payload.description,
       name: payload.name,
+      other_owners: payload.other_owners_data,
       is_online: false
+    })
+  },
+  updateOtherOwners(state, payload) {
+    state.userData.created_classes.forEach((classroom) => {
+      if (classroom.id === payload.id) {
+        classroom.other_owners = payload.other_owners;
+      }
     })
   }
 };
