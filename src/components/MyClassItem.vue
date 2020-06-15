@@ -22,7 +22,7 @@
                 </q-btn>
               </div>
               <div class="row q-pa-xs">
-                <q-btn color="dark" icon="edit">
+                <q-btn color="dark" icon="edit" @click="editDialog = true">
                   <q-tooltip>
                     Edit name
                   </q-tooltip>
@@ -109,6 +109,40 @@
         </q-form>
       </q-card>
     </q-dialog>
+    <q-dialog v-model="editDialog" transition-show="scale" transition-hide="scale">
+      <q-card class="full-width bg-warning">
+        <div class="row justify-center q-pa-lg q-ma-md text-h4 text-weight-bold text-dark architects">Create Class</div>
+        <q-form class="text-center" @submit="edit">
+          <q-input
+            rounded
+            outlined
+            v-model="userInput.name"
+            class="q-ma-lg"
+            label="Class name *"
+            hint="Class name should be unique"
+            :rules="[ val => val && val.length > 0 || 'Please type something']"
+          />
+          <q-input
+            rounded
+            outlined
+            v-model="userInput.description"
+            class="q-ma-lg"
+            type="textarea"
+            label="Class description"
+            hint="Describe your class. This section cannot be blank"
+          />
+
+          <q-btn type="submit" color="dark" class="architects text-white q-ma-lg text-weight-bold"
+                 :loading="editClassLoading" rounded style="width: 110px">
+            Edit
+            <template v-slot:loading>
+              <q-spinner-hourglass class="on-left"/>
+              Loading...
+            </template>
+          </q-btn>
+        </q-form>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -121,9 +155,13 @@
         data() {
             return {
                 deleteLoading: false,
+                editClassLoading: false,
                 addOwnerLoading: false,
                 ownersDialog: false,
+                editDialog: false,
                 userInput: {
+                    description: "",
+                    name: "",
                     owners: []
                 },
                 options: []
@@ -133,7 +171,7 @@
             ...mapGetters('classroom', ['getSearchedUsers']),
         },
         methods: {
-            ...mapActions('classroom', ['deactivate', 'searchForUser', 'addOwnerToClass']),
+            ...mapActions('classroom', ['deactivate', 'searchForUser', 'addOwnerToClass', 'editClass']),
             deactivateClassroom() {
                 this.deleteLoading = true;
                 this.deactivate(this.classroom.id).then(() => {
@@ -164,15 +202,46 @@
                     this.addOwnerLoading = false
                 }).catch((e) => {
                     this.addOwnerLoading = false;
+                    let currentOwners = this.classroom.other_owners;
+                    this.userInput.owners = [];
+                    currentOwners.forEach((value) => {
+                        this.userInput.owners.push({
+                            email: value.email,
+                            name: value.name,
+                            id: value.id
+                        })
+                    });
                     this.$q.notify({
                         message: e,
                         type: "negative",
-                    })
+                    });
+                })
+            },
+            edit() {
+                this.editClassLoading = true;
+                this.editClass({
+                    id: this.classroom.id,
+                    body: {
+                        name: this.userInput.name,
+                        description: this.userInput.description
+                    }
+                }).then(() => {
+                    this.editClassLoading = false;
+                }).catch((e) => {
+                    this.editClassLoading = false;
+                    this.userInput.name = this.classroom.name;
+                    this.userInput.description = this.classroom.description;
+                    this.$q.notify({
+                        message: e,
+                        type: "negative",
+                    });
                 })
             }
         },
         mounted() {
             let currentOwners = this.classroom.other_owners;
+            this.userInput.name = this.classroom.name;
+            this.userInput.description = this.classroom.description;
             currentOwners.forEach((value) => {
                 this.userInput.owners.push({
                     email: value.email,
