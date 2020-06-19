@@ -13,15 +13,51 @@
               <q-item-section>No results</q-item-section>
             </q-item>
             <q-item v-for="classroom in getSearchedClasses" :key="classroom.id" clickable dense
-                    @click="selectClassroom(classroom.id)" v-close-popup>
+                    @click="selectClassroom(classroom.id)" v-close-popup class="row justify-evenly">
               <q-item-section>{{classroom.name}}</q-item-section>
-              <q-item-section>{{classroom.description.substring(0,70)}}</q-item-section>
-              <q-item-section>by {{classroom.creator.name}}</q-item-section>
+              <q-item-section class="text-center">{{classroom.description.substring(0,20)}}...</q-item-section>
+              <q-item-section class="text-center">by {{classroom.creator.name}}</q-item-section>
             </q-item>
           </q-list>
         </q-menu>
       </q-input>
     </q-form>
+    <q-dialog v-model="showDialog" transition-show="scale" transition-hide="scale">
+      <q-card class="full-width bg-warning" flat bordered>
+        <q-img
+          src="../assets/classroom.jpg"
+        />
+        <q-card-section class="q-pa-md text-dark architects">
+          <div class="text-h4 text-center text-weight-bold">
+            {{selectedClassroom.name}}
+          </div>
+          <div class="text-subtitle1 text-center text-weight-bold">
+            by {{selectedClassroom.creator.name}}
+          </div>
+        </q-card-section>
+        <q-card-section class="architects text-weight-bold text-dark text-h6 text-center">
+          {{selectedClassroom.description}}
+        </q-card-section>
+        <q-card-actions class="row justify-center q-ma-sm">
+          <q-btn v-if="!hasEnrolled" rounded flat class="bg-dark text-white text-weight-bold architects"
+                 style="width: 130px" no-caps :loading="buttonLoading" @click="EnrollOrDisenroll">
+            Enroll
+            <template v-slot:loading>
+              <q-spinner-hourglass class="on-left"/>
+              Loading...
+            </template>
+          </q-btn>
+          <q-btn v-else rounded flat class="bg-negative text-white text-weight-bold architects" style="width: 130px"
+                 no-caps :loading="buttonLoading" @click="EnrollOrDisenroll">
+            Disenroll
+            <template v-slot:loading>
+              <q-spinner-hourglass class="on-left"/>
+              Loading...
+            </template>
+          </q-btn>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -33,23 +69,38 @@
         data() {
             return {
                 showMenu: false,
+                buttonLoading: false,
                 query: '',
                 loading: false,
-                showDialog: true,
-                options: [
-                    "sds",
-                    "sdsd",
-                    "sdosd"
-                ]
+                showDialog: false,
+                selectedClassroom: {
+                    id: null,
+                    name: "",
+                    description: "",
+                    creator: {
+                        name: ""
+                    }
+                }
             }
         },
         computed: {
-            ...mapGetters('classroom', ['getSearchedClasses'])
+            ...mapGetters('classroom', ['getSearchedClasses']),
+            ...mapGetters('profile', ['getUserData']),
+            hasEnrolled() {
+                let flag = false;
+                let joined = this.getUserData.joined_classes;
+                joined.forEach((value) => {
+                    if (value.id === this.selectedClassroom.id) {
+                        flag = true;
+                    }
+                });
+                return flag;
+            }
         },
         methods: {
-            ...mapActions('classroom', ['searchForClassrooms']),
+            ...mapActions('classroom', ['searchForClassrooms', 'toggleEnrolled']),
             searchClassroom() {
-                if (this.query === ''){
+                if (this.query === '') {
                     return
                 }
                 this.showMenu = true;
@@ -63,9 +114,16 @@
                     if (element.id === id) {
                         this.selectedClassroom = element
                     }
+                });
+                this.showDialog = true;
+            },
+            EnrollOrDisenroll() {
+                this.buttonLoading = true;
+                this.toggleEnrolled(this.selectedClassroom.id).then(() => {
+                    this.buttonLoading = false;
                 })
-            }
-        }
+            },
+        },
     }
 </script>
 

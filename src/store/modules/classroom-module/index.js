@@ -69,6 +69,12 @@ const actions = {
         throw error.response.data.description;
       }
     })
+  },
+  toggleEnrolled(context, id) {
+    return axios.get("http://127.0.0.1:8000/api/classrooms/toggle_enrolled/" + id.toString()).then((response) => {
+      console.log(response.data);
+      context.commit('profile/toggleEnrolledClasses', {body: response.data, id: id}, {root: true});
+    })
   }
 };
 

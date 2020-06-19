@@ -34,13 +34,22 @@ const mutations = {
       }
     })
   },
-  updateNameDescription(state, payload){
+  updateNameDescription(state, payload) {
     state.userData.created_classes.forEach((classroom) => {
       if (classroom.id === payload.id) {
         classroom.name = payload.name;
         classroom.description = payload.description;
       }
     })
+  },
+  toggleEnrolledClasses(state, payload) {
+    if (payload.body === "") {
+      state.userData.joined_classes = state.userData.joined_classes.filter((value) => {
+        return value.id !== payload.id;
+      })
+    } else {
+      state.userData.joined_classes.push(payload.body);
+    }
   }
 };
 
