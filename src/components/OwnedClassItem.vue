@@ -7,9 +7,21 @@
     <q-separator/>
     <q-card-actions>
       <div class="row full-width">
-        <div class="col-9 text-center q-pa-xs">
+        <div class="col-6 text-center q-pa-xs">
           <q-btn class="full-height full-width architects text-weight-bold" text-color="primary" color="warning">
             Start class
+          </q-btn>
+        </div>
+        <div class="col-3 text-center q-pa-xs">
+          <q-btn class="full-width full-height" color="negative" icon="delete" :loading="disenrollLoading"
+                 @click="disenroll">
+            <q-tooltip>
+              Revoke Ownership
+            </q-tooltip>
+            <template v-slot:loading>
+              <q-spinner-hourglass class="on-left"/>
+              Loading...
+            </template>
           </q-btn>
         </div>
         <div class="col-3 q-pa-xs text-center">

@@ -7,9 +7,21 @@
     <q-separator/>
     <q-card-actions>
       <div class="row full-width">
-        <div class="col-9 text-center q-pa-xs">
+        <div class="col-6 text-center q-pa-xs">
           <q-btn class="full-height full-width text-dark architects text-weight-bold" color="dark">
             Enter class
+          </q-btn>
+        </div>
+        <div class="col-3 text-center q-pa-xs">
+          <q-btn class="full-width full-height" color="negative" icon="delete" :loading="disenrollLoading"
+                 @click="disenroll">
+            <q-tooltip>
+              Disenroll
+            </q-tooltip>
+            <template v-slot:loading>
+              <q-spinner-hourglass class="on-left"/>
+              Loading...
+            </template>
           </q-btn>
         </div>
         <div class="col-3 q-pa-xs text-center">
@@ -25,9 +37,25 @@
 </template>
 
 <script>
+    import {mapActions} from "vuex";
+
     export default {
         props: ['classroom'],
-        name: "JoinedClassItem"
+        name: "JoinedClassItem",
+        data() {
+            return {
+                disenrollLoading: false,
+            }
+        },
+        methods: {
+            ...mapActions('classroom', ['toggleEnrolled']),
+            disenroll() {
+                this.disenrollLoading = true;
+                this.toggleEnrolled(this.classroom.id).then(() => {
+                    this.disenrollLoading = false;
+                })
+            }
+        }
     }
 </script>
 
