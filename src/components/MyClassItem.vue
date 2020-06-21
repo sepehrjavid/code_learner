@@ -232,7 +232,7 @@
                 }).then(() => {
                     this.editClassLoading = false;
                     this.$q.notify({
-                        message: "owners successfully updated",
+                        message: "classroom successfully updated",
                         type: "positive",
                     });
                 }).catch((e) => {
