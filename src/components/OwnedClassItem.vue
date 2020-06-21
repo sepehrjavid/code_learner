@@ -13,8 +13,7 @@
           </q-btn>
         </div>
         <div class="col-3 text-center q-pa-xs">
-          <q-btn class="full-width full-height" color="negative" icon="delete" :loading="disenrollLoading"
-                 @click="disenroll">
+          <q-btn class="full-width full-height" color="negative" icon="delete">
             <q-tooltip>
               Revoke Ownership
             </q-tooltip>

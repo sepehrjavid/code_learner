@@ -38,7 +38,7 @@
         <q-card-section class="architects text-weight-bold text-dark text-h6 text-center">
           {{selectedClassroom.description}}
         </q-card-section>
-        <q-card-actions class="row justify-center q-ma-sm">
+        <q-card-actions class="row justify-center q-ma-sm" v-if="!isOwnerOrCreator">
           <q-btn v-if="!hasEnrolled" rounded flat class="bg-dark text-white text-weight-bold architects"
                  style="width: 130px" no-caps :loading="buttonLoading" @click="EnrollOrDisenroll">
             Enroll
@@ -90,6 +90,21 @@
                 let flag = false;
                 let joined = this.getUserData.joined_classes;
                 joined.forEach((value) => {
+                    if (value.id === this.selectedClassroom.id) {
+                        flag = true;
+                    }
+                });
+                return flag;
+            },
+            isOwnerOrCreator() {
+                let flag = false;
+                let user = this.getUserData;
+                user.created_classes.forEach((value) => {
+                    if (value.id === this.selectedClassroom.id) {
+                        flag = true;
+                    }
+                });
+                user.owned_classes.forEach((value) => {
                     if (value.id === this.selectedClassroom.id) {
                         flag = true;
                     }
