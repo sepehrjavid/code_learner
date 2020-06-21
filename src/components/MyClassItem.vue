@@ -198,8 +198,12 @@
                 this.userInput.owners.forEach(((value) => {
                     owners.push(value.id)
                 }));
-                this.addOwnerToClass({id: this.classroom.id, body: {owners: owners}}).then(() => {
-                    this.addOwnerLoading = false
+                this.addOwnerToClass({id: this.classroom.id, body: {other_owners: owners}}).then(() => {
+                    this.addOwnerLoading = false;
+                    this.$q.notify({
+                        message: "owners successfully updated",
+                        type: "positive",
+                    });
                 }).catch((e) => {
                     this.addOwnerLoading = false;
                     let currentOwners = this.classroom.other_owners;
@@ -227,6 +231,10 @@
                     }
                 }).then(() => {
                     this.editClassLoading = false;
+                    this.$q.notify({
+                        message: "owners successfully updated",
+                        type: "positive",
+                    });
                 }).catch((e) => {
                     this.editClassLoading = false;
                     this.userInput.name = this.classroom.name;
