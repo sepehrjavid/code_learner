@@ -13,9 +13,9 @@
           </q-btn>
         </div>
         <div class="col-3 text-center q-pa-xs">
-          <q-btn class="full-width full-height" color="negative" icon="delete">
+          <q-btn class="full-width full-height" color="negative" icon="delete" @click="quitOwnership(classroom.id)">
             <q-tooltip>
-              Revoke Ownership
+              Quit Ownership
             </q-tooltip>
             <template v-slot:loading>
               <q-spinner-hourglass class="on-left"/>
@@ -36,9 +36,14 @@
 </template>
 
 <script>
+    import {mapActions} from "vuex";
+
     export default {
         props: ['classroom'],
-        name: "OwnedClassItem"
+        name: "OwnedClassItem",
+        methods: {
+            ...mapActions('classroom', ['quitOwnership'])
+        }
     }
 </script>
 

@@ -50,6 +50,11 @@ const mutations = {
     } else {
       state.userData.joined_classes.push(payload.body);
     }
+  },
+  removeOwnership(state, payload) {
+    state.userData.owned_classes = state.userData.owned_classes.filter((value) => {
+      return value.id !== payload;
+    })
   }
 };
 

@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import auth from './modules/auth-module/index'
 import classroom from './modules/classroom-module/index'
 import profile from './modules/profile-module/index'
+import quiz from './modules/quiz-module/index'
 // import example from './module-example'
 
 Vue.use(Vuex)
@@ -21,7 +22,8 @@ export default function (/* { ssrContext } */) {
     modules: {
       auth,
       classroom,
-      profile
+      profile,
+      quiz
     },
 
     // enable strict mode (adds overhead!)
