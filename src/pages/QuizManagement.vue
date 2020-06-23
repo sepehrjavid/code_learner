@@ -39,9 +39,16 @@
           </q-tab-panel>
         </q-tab-panels>
         <q-page-sticky position="bottom-right" :offset="[30, 30]">
-          <q-btn fab icon="add" color="dark"/>
+          <q-btn fab icon="add" color="dark" @click="showDialog=true">
+            <q-tooltip>
+              Create Quiz
+            </q-tooltip>
+          </q-btn>
         </q-page-sticky>
       </div>
+      <q-dialog v-model="showDialog">
+        <AddQuiz @close="showDialog = false"/>
+      </q-dialog>
     </div>
     <LoadingCircle v-else/>
   </q-page>
@@ -51,15 +58,17 @@
     import {mapActions, mapGetters} from "vuex"
     import LoadingCircle from "../components/LoadingCircle"
     import QuizManagementItem from "../components/QuizManagementItem"
+    import AddQuiz from "../components/AddQuiz";
 
     export default {
-        components: {LoadingCircle, QuizManagementItem},
+        components: {LoadingCircle, QuizManagementItem, AddQuiz},
         name: "QuizManagement",
         props: ['classroomId'],
         data() {
             return {
+                showDialog: false,
                 loading: true,
-                quizId: null
+                quizId: null,
             }
         },
         computed: {

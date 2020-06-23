@@ -1,6 +1,6 @@
 <template>
-  <div class="my-card">
-    <q-card class="bg-dark q-">
+  <div class="my-card q-ma-md">
+    <q-card class="bg-dark">
       <q-card-section class="text-white q-pa-sm">
         <div class="text-center text-h5 q-pa-sm text-weight-bold">{{answer.user.name}}</div>
         <div class="text-center text-subtitle1">Current score: {{answer.score}}</div>
