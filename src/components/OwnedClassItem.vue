@@ -24,7 +24,7 @@
           </q-btn>
         </div>
         <div class="col-3 q-pa-xs text-center">
-          <q-btn class="full-width full-height" color="accent" icon="description">
+          <q-btn class="full-width full-height" color="accent" icon="description" @click="routeToQuizManagement">
             <q-tooltip>
               Quizzes
             </q-tooltip>
@@ -42,7 +42,10 @@
         props: ['classroom'],
         name: "OwnedClassItem",
         methods: {
-            ...mapActions('classroom', ['quitOwnership'])
+            ...mapActions('classroom', ['quitOwnership']),
+            routeToQuizManagement() {
+                this.$router.replace({name: "ManageQuiz", params: {classroomId: this.classroom.id}});
+            }
         }
     }
 </script>

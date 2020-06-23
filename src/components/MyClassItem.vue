@@ -31,7 +31,7 @@
             </div>
             <div class="row justify-center">
               <div class="row q-pa-xs">
-                <q-btn color="accent" icon="description">
+                <q-btn color="accent" icon="description" @click="routeToQuizManagement">
                   <q-tooltip>
                     Quizzes
                   </q-tooltip>
@@ -244,6 +244,9 @@
                         type: "negative",
                     });
                 })
+            },
+            routeToQuizManagement() {
+                this.$router.replace({name: "ManageQuiz", params: {classroomId: this.classroom.id}});
             }
         },
         mounted() {
