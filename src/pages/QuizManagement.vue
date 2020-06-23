@@ -39,7 +39,7 @@
           </q-tab-panel>
         </q-tab-panels>
         <q-page-sticky position="bottom-right" :offset="[30, 30]">
-          <q-btn fab icon="add" color="dark" @click="showDialog=true">
+          <q-btn fab icon="note_add" color="dark" @click="showDialog=true">
             <q-tooltip>
               Create Quiz
             </q-tooltip>
