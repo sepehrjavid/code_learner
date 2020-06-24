@@ -72,7 +72,8 @@
                         this.buttonLoading = false;
                         this.$q.notify({
                             message: "Password changed successfully",
-                            type: "positive",
+                            type: "dark",
+                            classes: 'architects text-weight-bold',
                         });
                         this.userInput.newPassword = "";
                         this.userInput.currentPassword = "";

@@ -130,7 +130,12 @@
       <template v-slot:navigation>
         <q-stepper-navigation>
           <q-btn @click="submitQuizOrMoveNext" color="dark" :label="step === 3 ? 'Finish' : 'Continue'"
-                 class="architects text-weight-bold" rounded/>
+                 class="architects text-weight-bold" rounded :loading="createLoading">
+            <template v-slot:loading>
+              <q-spinner-hourglass class="on-left"/>
+              Loading...
+            </template>
+          </q-btn>
           <q-btn v-if="step > 1" flat color="dark" @click="$refs.stepper.previous()" label="Back"
                  class="q-ml-sm architects text-weight-bold" rounded/>
         </q-stepper-navigation>
@@ -204,7 +209,6 @@
                     type: "dark",
                     classes: "architects text-weight-bold"
                 });
-                console.log(this.userInput.deadline)
             },
             removeQuestion(questionIndex) {
                 this.questions = this.questions.filter((choice, index) => {
@@ -215,12 +219,14 @@
                 if (this.step !== 3) {
                     this.$refs.stepper.next()
                 } else {
+                    this.createLoading = true;
                     if (this.userInput.name === "") {
                         this.$q.notify({
                             message: "Name cannot be empty!",
                             type: "negative",
                             classes: 'architects text-weight-bold',
                         });
+                        this.createLoading = false;
                         return;
                     }
                     if (this.questions.length === 0) {
@@ -229,6 +235,7 @@
                             type: "negative",
                             classes: 'architects text-weight-bold',
                         });
+                        this.createLoading = false;
                         return;
                     }
                     if (this.userInput.deadline === "" || this.userInput.starDate === "") {
@@ -237,6 +244,7 @@
                             type: "negative",
                             classes: 'architects text-weight-bold',
                         });
+                        this.createLoading = false;
                         return;
                     }
                     let deadlineDate = this.modifyDate(this.userInput.deadline);
@@ -247,6 +255,7 @@
                             type: "negative",
                             classes: 'architects text-weight-bold',
                         });
+                        this.createLoading = false;
                         return;
                     }
                     if (new Date(deadlineDate) < Date.now() || new Date(startDate) < Date.now()) {
@@ -255,6 +264,7 @@
                             type: "negative",
                             classes: 'architects text-weight-bold',
                         });
+                        this.createLoading = false;
                         return;
                     }
                     let data = {
@@ -269,6 +279,7 @@
                             type: "dark",
                             classes: 'architects text-weight-bold',
                         });
+                        this.createLoading = false;
                         this.$emit('close')
                     })
                 }

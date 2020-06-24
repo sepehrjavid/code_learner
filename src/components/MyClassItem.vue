@@ -202,7 +202,8 @@
                     this.addOwnerLoading = false;
                     this.$q.notify({
                         message: "owners successfully updated",
-                        type: "positive",
+                        type: "dark",
+                        classes: 'architects text-weight-bold',
                     });
                 }).catch((e) => {
                     this.addOwnerLoading = false;
@@ -233,7 +234,8 @@
                     this.editClassLoading = false;
                     this.$q.notify({
                         message: "classroom successfully updated",
-                        type: "positive",
+                        type: "dark",
+                        classes: 'architects text-weight-bold',
                     });
                 }).catch((e) => {
                     this.editClassLoading = false;
