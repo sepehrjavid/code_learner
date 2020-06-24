@@ -4,11 +4,15 @@ import moment from 'moment';
 const state = {
   allQuizzes: [],
   selectedQuiz: {},
+  myQuizzes: {}
 };
 
 const mutations = {
   setAllQuizzes(state, payload) {
     state.allQuizzes = payload;
+  },
+  setMyQuizzes(state, payload) {
+    state.myQuizzes = payload;
   },
   setSelectedQuiz(state, payload) {
     state.allQuizzes.forEach((quiz) => {
@@ -49,6 +53,23 @@ const actions = {
       data.start_date = moment(data.start_date).format('MMMM D YYYY, HH:mm');
       context.commit('addNewQuiz', data);
     })
+  },
+  fetchMyQuizzesAndAnswers(context, id) {
+    return axios.get("http://127.0.0.1:8000/api/quizzes/quiz_answers/" + id.toString()).then((response) => {
+      let data = response.data;
+
+      data.answered.forEach((answer) => {
+        answer.sent_date = moment(answer.sent_date).format('MMMM D YYYY, HH:mm');
+        answer.quiz.deadline = moment(answer.quiz.deadline).format('MMMM D YYYY, HH:mm');
+        answer.quiz.start_date = moment(answer.quiz.start_date).format('MMMM D YYYY, HH:mm');
+      });
+
+      data.not_answered.forEach((quiz) => {
+        quiz.deadline = moment(quiz.deadline).format('MMMM D YYYY, HH:mm');
+        quiz.start_date = moment(quiz.start_date).format('MMMM D YYYY, HH:mm');
+      });
+      context.commit('setMyQuizzes', data)
+    })
   }
 };
 
@@ -59,6 +80,9 @@ const getters = {
   },
   getSelectedQuiz: (state) => {
     return state.selectedQuiz
+  },
+  getMyQuizzes: (state) => {
+    return state.myQuizzes
   },
 };
 

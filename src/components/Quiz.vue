@@ -7,7 +7,7 @@
 <script>
     export default {
         name: "Quiz",
-        props: ['questions']
+        props: ['questionSet', 'isPreview', 'answers']
     }
 </script>
 

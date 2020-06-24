@@ -34,7 +34,7 @@
         props: ['answer', 'deadline'],
         computed: {
             isOverdue() {
-                return !!moment(this.answer.sent_date, 'MMMM D YYYY, HH:mm').isAfter(moment(this.deadline, 'MMMM D YYYY, HH:mm'));
+                return moment(this.answer.sent_date, 'MMMM D YYYY, HH:mm').isAfter(moment(this.deadline, 'MMMM D YYYY, HH:mm'));
             }
         }
     }
