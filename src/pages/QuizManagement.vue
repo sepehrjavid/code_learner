@@ -47,7 +47,7 @@
         </q-page-sticky>
       </div>
       <q-dialog v-model="showDialog">
-        <AddQuiz @close="showDialog = false"/>
+        <AddQuiz @close="showDialog = false" :classroomId="classroomId"/>
       </q-dialog>
     </div>
     <LoadingCircle v-else/>

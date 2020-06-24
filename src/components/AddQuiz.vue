@@ -103,28 +103,33 @@
         title="Preview Quiz"
         icon="description"
       >
-        <div v-for="(question, index) in questions" :key="index">
-          <q-input v-model="questions[index].text" rounded outlined label="Question text" class="q-pa-md"
-                   type="textarea">
-            <template v-slot:append>
-              <q-icon name="delete" class="cursor-pointer" @click="removeQuestion(index)"/>
-            </template>
-          </q-input>
-          <div class="row q-my-md" v-if="questions[index].type === 2">
-            <q-input label="Choice" v-for="(choice, choiceIndex) in questions[index].choices" :key="choiceIndex"
-                     :placeholder="choice" rounded outlined class="col-12 col-sm-6 q-mb-md q-pr-md q-pl-md"
-                     v-model="questions[index].choices[choiceIndex]">
+        <template v-if="questions.length !== 0">
+          <div v-for="(question, index) in questions" :key="index">
+            <q-input v-model="questions[index].text" rounded outlined label="Question text" class="q-pa-md"
+                     type="textarea">
               <template v-slot:append>
-                <q-icon name="delete" class="cursor-pointer" @click="removeChoice(index)"/>
+                <q-icon name="delete" class="cursor-pointer" @click="removeQuestion(index)"/>
               </template>
             </q-input>
+            <div class="row q-my-md" v-if="questions[index].type === 2">
+              <q-input label="Choice" v-for="(choice, choiceIndex) in questions[index].choices" :key="choiceIndex"
+                       :placeholder="choice" rounded outlined class="col-12 col-sm-6 q-mb-md q-pr-md q-pl-md"
+                       v-model="questions[index].choices[choiceIndex]">
+                <template v-slot:append>
+                  <q-icon name="delete" class="cursor-pointer" @click="removeChoice(index)"/>
+                </template>
+              </q-input>
+            </div>
+            <q-separator inset/>
           </div>
-          <q-separator inset/>
+        </template>
+        <div v-else class="architects text-dark text-weight-bold text-h6 text-center">
+          You haven't added any questions yet
         </div>
       </q-step>
       <template v-slot:navigation>
         <q-stepper-navigation>
-          <q-btn @click="$refs.stepper.next()" color="dark" :label="step === 3 ? 'Finish' : 'Continue'"
+          <q-btn @click="submitQuizOrMoveNext" color="dark" :label="step === 3 ? 'Finish' : 'Continue'"
                  class="architects text-weight-bold" rounded/>
           <q-btn v-if="step > 1" flat color="dark" @click="$refs.stepper.previous()" label="Back"
                  class="q-ml-sm architects text-weight-bold" rounded/>
@@ -135,8 +140,12 @@
 </template>
 
 <script>
+    import {mapActions} from "vuex"
+    import moment from "moment";
+
     export default {
         name: "AddQuiz",
+        props: ['classroomId'],
         data() {
             return {
                 questions: [],
@@ -167,6 +176,7 @@
             }
         },
         methods: {
+            ...mapActions('quiz', ['createQuiz']),
             addChoice() {
                 this.userInput.questionChoices.push(this.userInput.choiceText);
                 this.userInput.choiceText = "";
@@ -194,13 +204,79 @@
                     type: "dark",
                     classes: "architects text-weight-bold"
                 });
-                console.log(this.questions)
+                console.log(this.userInput.deadline)
             },
             removeQuestion(questionIndex) {
                 this.questions = this.questions.filter((choice, index) => {
                     return index !== questionIndex
                 })
-            }
+            },
+            submitQuizOrMoveNext() {
+                if (this.step !== 3) {
+                    this.$refs.stepper.next()
+                } else {
+                    if (this.userInput.name === "") {
+                        this.$q.notify({
+                            message: "Name cannot be empty!",
+                            type: "negative",
+                            classes: 'architects text-weight-bold',
+                        });
+                        return;
+                    }
+                    if (this.questions.length === 0) {
+                        this.$q.notify({
+                            message: "Question set cannot be empty!",
+                            type: "negative",
+                            classes: 'architects text-weight-bold',
+                        });
+                        return;
+                    }
+                    if (this.userInput.deadline === "" || this.userInput.starDate === "") {
+                        this.$q.notify({
+                            message: "Dates cannot be left blank!",
+                            type: "negative",
+                            classes: 'architects text-weight-bold',
+                        });
+                        return;
+                    }
+                    let deadlineDate = this.modifyDate(this.userInput.deadline);
+                    let startDate = this.modifyDate(this.userInput.starDate);
+                    if (deadlineDate <= startDate) {
+                        this.$q.notify({
+                            message: "Deadline should be after start date!",
+                            type: "negative",
+                            classes: 'architects text-weight-bold',
+                        });
+                        return;
+                    }
+                    if (new Date(deadlineDate) < Date.now() || new Date(startDate) < Date.now()) {
+                        this.$q.notify({
+                            message: "Please enter a time in the future!",
+                            type: "negative",
+                            classes: 'architects text-weight-bold',
+                        });
+                        return;
+                    }
+                    let data = {
+                        name: this.userInput.name,
+                        deadline: deadlineDate,
+                        start_date: startDate,
+                        questions: this.questions
+                    };
+                    this.createQuiz({id: this.classroomId, body: data}).then(() => {
+                        this.$q.notify({
+                            message: "Quiz was successfully added!",
+                            type: "dark",
+                            classes: 'architects text-weight-bold',
+                        });
+                        this.$emit('close')
+                    })
+                }
+            },
+            modifyDate(dateTime) {
+                let m = moment(dateTime, 'YYYY/MM/DD HH:mm');
+                return m.toISOString();
+            },
         }
     }
 </script>

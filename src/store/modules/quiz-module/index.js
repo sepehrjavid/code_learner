@@ -17,6 +17,9 @@ const mutations = {
       }
     });
   },
+  addNewQuiz(state, payload) {
+    state.allQuizzes.push(payload)
+  }
 };
 
 
@@ -38,6 +41,15 @@ const actions = {
   injectSelectedQuiz(context, QuizId) {
     return context.commit('setSelectedQuiz', QuizId)
   },
+  createQuiz(context, payload) {
+    return axios.post("http://127.0.0.1:8000/api/quizzes/create/" + payload.id.toString(), payload.body).then((response) => {
+      let data = response.data;
+      data.created_date = moment(data.created_date).format('MMMM D YYYY, HH:mm');
+      data.deadline = moment(data.deadline).format('MMMM D YYYY, HH:mm');
+      data.start_date = moment(data.start_date).format('MMMM D YYYY, HH:mm');
+      context.commit('addNewQuiz', data);
+    })
+  }
 };
 
 
