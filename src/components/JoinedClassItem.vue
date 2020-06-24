@@ -54,7 +54,7 @@
             </q-item-section>
             <q-item-section style="max-width: 100px">
               <div class="text-center">
-                <q-btn round class="bg-dark text-white" icon="create">
+                <q-btn round class="bg-dark text-white" icon="create" @click="startQuiz(quiz)">
                   <q-tooltip>
                     Start Quiz
                   </q-tooltip>
@@ -134,6 +134,9 @@
             },
             isOverdue(sentDate, deadline) {
                 return moment(sentDate, 'MMMM D YYYY, HH:mm').isAfter(moment(deadline, 'MMMM D YYYY, HH:mm'));
+            },
+            startQuiz(quiz) {
+                this.$router.replace({name: "Quiz", params: {quiz: quiz, isPreview: false, answerSet: null}});
             }
         }
     }

@@ -10,6 +10,7 @@ const routes = [
       {path: 'editProfile', name: "EditProfile", component: () => import('pages/EditProfile.vue')},
       {path: 'changePassword', name: "ChangePassword", component: () => import('pages/ChangePassword.vue')},
       {path: 'manageQuiz', name: "ManageQuiz", props: true, component: () => import('pages/QuizManagement.vue')},
+      {path: 'quiz', name: "Quiz", props: true, component: () => import('pages/Quiz.vue')},
     ]
   },
   {

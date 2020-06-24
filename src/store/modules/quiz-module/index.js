@@ -4,7 +4,10 @@ import moment from 'moment';
 const state = {
   allQuizzes: [],
   selectedQuiz: {},
-  myQuizzes: {}
+  myQuizzes: {
+    not_answered: [],
+    answered: []
+  }
 };
 
 const mutations = {
