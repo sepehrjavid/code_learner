@@ -4,6 +4,10 @@
       <div class="column col-12 items-center justify-center q-pa-md">
         <div class="architects text-h3 text-weight-bold q-my-lg text-dark">Quiz Management</div>
       </div>
+      <div v-if="getAllQuizzes.length === 0"
+           class="full-width text-center architects text-weight-bold text-dark text-h4 q-ma-xl q-pa-xl">
+        You have't created any quizzes yet!
+      </div>
       <div class="col-12 row justify-center architects q-mx-md q-my-md">
         <div class="row justify-center">
           <q-tabs
@@ -50,6 +54,10 @@
         <AddQuiz @close="showDialog = false" :classroomId="classroomId"/>
       </q-dialog>
     </div>
+    <div v-else-if="getAllQuizzes.length === 0" style="height: 500px"
+         class="row justify-center full-width text-center architects text-weight-bold text-dark text-h5 full-height">
+      You have't created any quizzes yet!
+    </div>
     <LoadingCircle v-else/>
   </q-page>
 </template>
@@ -78,9 +86,12 @@
             ...mapActions('quiz', ['fetchAllQuizzes', 'injectSelectedQuiz'])
         },
         mounted() {
+            console.log(this.classroomId);
             this.fetchAllQuizzes(this.classroomId).finally(() => {
-                this.injectSelectedQuiz(this.getAllQuizzes[0].id);
-                this.quizId = this.getAllQuizzes[0].id;
+                if (this.getAllQuizzes.length !== 0) {
+                    this.injectSelectedQuiz(this.getAllQuizzes[0].id);
+                    this.quizId = this.getAllQuizzes[0].id;
+                }
                 this.loading = false;
 
             })
