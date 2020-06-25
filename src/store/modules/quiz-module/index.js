@@ -73,6 +73,11 @@ const actions = {
       });
       context.commit('setMyQuizzes', data)
     })
+  },
+  sendQuizAnswer(context, payload) {
+    return axios.post("http://127.0.0.1:8000/api/quizzes/answer/" + payload.id.toString(), payload.body).then((response) => {
+
+    })
   }
 };
 

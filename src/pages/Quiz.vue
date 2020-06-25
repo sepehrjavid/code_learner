@@ -3,8 +3,10 @@
     <q-card class="bg-warning" style="width: 70%; margin: auto">
       <q-card-section class="q-pb-none q-mb-none">
         <div class="text-h4 text-dark text-center q-pb-sm">{{quiz.name}}</div>
-        <div class="text-body1 text-dark text-center bg-negative" v-if="isOverdue">Deadline: {{quiz.deadline}}</div>
-        <div class="text-body1 text-dark text-center" v-else>Deadline: {{quiz.deadline}}</div>
+        <template v-if="!isPreview">
+          <div class="text-body1 text-dark text-center bg-negative" v-if="isOverdue">Deadline: {{quiz.deadline}}</div>
+          <div class="text-body1 text-dark text-center" v-else>Deadline: {{quiz.deadline}}</div>
+        </template>
         <div class="col-12 row justify-center q-mt-md full-width">
           <div style="width: 70%">
             <q-separator style="width: 100%; height: 2px;" color="dark"/>
@@ -31,7 +33,8 @@
       </q-card-section>
       <q-card-actions v-if="!isPreview">
         <div class="row justify-center full-width q-pb-sm">
-          <q-btn rounded flat class="bg-dark text-white text-weight-bold q-pa-xs" @click="sendAnswer">
+          <q-btn rounded flat class="bg-dark text-white text-weight-bold q-pa-xs" @click="sendAnswer"
+                 :loading="submitLoading">
             Submit Answers
             <template v-slot:loading>
               <q-spinner-hourglass class="on-left"/>
@@ -46,13 +49,15 @@
 
 <script>
     import moment from 'moment';
+    import {mapActions} from "vuex"
 
     export default {
         name: "Quiz",
         props: ['quiz', 'isPreview', 'answerSet'],
         data() {
             return {
-                answers: []
+                answers: [],
+                submitLoading: false
             }
         },
         computed: {
@@ -61,13 +66,27 @@
             }
         },
         methods: {
-            sendAnswer(){
-                console.log(this.answers);
+            ...mapActions('quiz', ['sendQuizAnswer']),
+            sendAnswer() {
+                if (!this.isPreview) {
+                    this.submitLoading = true;
+                    this.sendQuizAnswer({body: {answers: this.answers}, id: this.quiz.id}).then(() => {
+                        this.submitLoading = false;
+                        this.$q.notify({
+                            message: "Your answers were successfully submitted",
+                            type: "dark",
+                            classes: "architects text-weight-bold"
+                        });
+                        this.$router.replace({name: "DashboardHome"})
+                    })
+                }
             }
         },
         mounted() {
             if (this.isPreview) {
-
+                this.answerSet.forEach((answer) => {
+                    this.answers.push(answer);
+                })
             } else {
                 this.quiz.questions.forEach((question) => {
                     if (question.type === 1) {
