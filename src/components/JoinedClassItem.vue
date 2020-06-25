@@ -54,7 +54,8 @@
             </q-item-section>
             <q-item-section style="max-width: 100px">
               <div class="text-center">
-                <q-btn round class="bg-dark text-white" icon="create" @click="startQuiz(quiz)">
+                <q-btn round class="bg-dark text-white" icon="create" @click="startQuiz(quiz)"
+                       :disable="!canEnterQuiz(quiz.start_date)">
                   <q-tooltip>
                     Start Quiz
                   </q-tooltip>
@@ -85,7 +86,7 @@
             </q-item-section>
             <q-item-section style="max-width: 100px">
               <div class="text-center">
-                <q-btn round class="bg-dark text-white" icon="visibility">
+                <q-btn round class="bg-dark text-white" icon="visibility" @click="previewQuiz(quizAnswer)">
                   <q-tooltip>
                     View Quiz Answer
                   </q-tooltip>
@@ -136,10 +137,19 @@
                 return moment(sentDate, 'MMMM D YYYY, HH:mm').isAfter(moment(deadline, 'MMMM D YYYY, HH:mm'));
             },
             startQuiz(quiz) {
-                this.$router.replace({
+                this.$router.push({
                     name: "Quiz",
                     params: {quiz: quiz, isPreview: false, answer: null, isCorrecting: false}
                 });
+            },
+            previewQuiz(quizAnswer) {
+                this.$router.push({
+                    name: "Quiz",
+                    params: {quiz: quizAnswer.quiz, isPreview: true, answer: quizAnswer, isCorrecting: false}
+                });
+            },
+            canEnterQuiz(startDate) {
+                return !moment().isBefore(moment(startDate, 'MMMM D YYYY, HH:mm'))
             }
         }
     }
