@@ -29,7 +29,7 @@
                                     v-for="answer in getSelectedQuiz.answers"
                                     :answer="answer"
                                     :key="answer.id"
-                                    :deadline="quiz.deadline"/>
+                                    :quiz="quiz"/>
               </div>
             </div>
             <div class="col-12" v-else>
@@ -86,7 +86,6 @@
             ...mapActions('quiz', ['fetchAllQuizzes', 'injectSelectedQuiz'])
         },
         mounted() {
-            console.log(this.classroomId);
             this.fetchAllQuizzes(this.classroomId).finally(() => {
                 if (this.getAllQuizzes.length !== 0) {
                     this.injectSelectedQuiz(this.getAllQuizzes[0].id);

@@ -26,6 +26,14 @@ const mutations = {
   },
   addNewQuiz(state, payload) {
     state.allQuizzes.push(payload)
+  },
+  updateAnswerScore(state, payload) {
+    state.selectedQuiz.answers.forEach((answer) => {
+      if (answer.id === payload.id) {
+        answer.score = payload.body.score
+      }
+    });
+    console.log(state.allQuizzes)
   }
 };
 
@@ -77,6 +85,11 @@ const actions = {
   sendQuizAnswer(context, payload) {
     return axios.post("http://127.0.0.1:8000/api/quizzes/answer/" + payload.id.toString(), payload.body).then((response) => {
 
+    })
+  },
+  gradeQuizAnswer(context, payload) {
+    return axios.post("http://127.0.0.1:8000/api/quizzes/score/" + payload.id.toString(), payload.body).then((response) => {
+      context.commit('updateAnswerScore', payload);
     })
   }
 };

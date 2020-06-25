@@ -136,7 +136,10 @@
                 return moment(sentDate, 'MMMM D YYYY, HH:mm').isAfter(moment(deadline, 'MMMM D YYYY, HH:mm'));
             },
             startQuiz(quiz) {
-                this.$router.replace({name: "Quiz", params: {quiz: quiz, isPreview: false, answerSet: null}});
+                this.$router.replace({
+                    name: "Quiz",
+                    params: {quiz: quiz, isPreview: false, answer: null, isCorrecting: false}
+                });
             }
         }
     }

@@ -19,7 +19,9 @@
       </q-card-section>
       <q-card-actions>
         <div class="text-center full-width">
-          <q-btn class="bg-warning text-dark text-weight-bold" style="width: 100px" rounded flat>Answers</q-btn>
+          <q-btn class="bg-warning text-dark text-weight-bold" style="width: 100px" rounded flat @click="viewAnswers()">
+            Answers
+          </q-btn>
         </div>
       </q-card-actions>
     </q-card>
@@ -31,10 +33,18 @@
 
     export default {
         name: "QuizManagementItem",
-        props: ['answer', 'deadline'],
+        props: ['answer', 'quiz'],
         computed: {
             isOverdue() {
-                return moment(this.answer.sent_date, 'MMMM D YYYY, HH:mm').isAfter(moment(this.deadline, 'MMMM D YYYY, HH:mm'));
+                return moment(this.answer.sent_date, 'MMMM D YYYY, HH:mm').isAfter(moment(this.quiz.deadline, 'MMMM D YYYY, HH:mm'));
+            }
+        },
+        methods: {
+            viewAnswers() {
+                this.$router.push({
+                    name: "Quiz",
+                    params: {quiz: this.quiz, isPreview: true, answer: this.answer, isCorrecting: true}
+                });
             }
         }
     }
