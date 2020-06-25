@@ -30,6 +30,7 @@
 
 <script>
     import moment from 'moment';
+    import {mapMutations} from "vuex"
 
     export default {
         name: "QuizManagementItem",
@@ -40,10 +41,12 @@
             }
         },
         methods: {
+            ...mapMutations('quiz', ['setQuizSettings']),
             viewAnswers() {
+                let settings = {quiz: this.quiz, isPreview: true, answer: this.answer, isCorrecting: true};
+                this.setQuizSettings(settings);
                 this.$router.push({
                     name: "Quiz",
-                    params: {quiz: this.quiz, isPreview: true, answer: this.answer, isCorrecting: true}
                 });
             }
         }

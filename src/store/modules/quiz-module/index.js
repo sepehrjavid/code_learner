@@ -7,7 +7,9 @@ const state = {
   myQuizzes: {
     not_answered: [],
     answered: []
-  }
+  },
+  quizSettings: {},
+  classroomIdToFetchQuizzes: null
 };
 
 const mutations = {
@@ -33,14 +35,19 @@ const mutations = {
         answer.score = payload.body.score
       }
     });
-    console.log(state.allQuizzes)
+  },
+  setQuizSettings(state, payload) {
+    state.quizSettings = payload
+  },
+  setClassroomIdToFetchQuizzes(state, payload) {
+    state.classroomIdToFetchQuizzes = payload
   }
 };
 
 
 const actions = {
-  fetchAllQuizzes(context, id) {
-    return axios.get("http://127.0.0.1:8000/api/quizzes/retrieve/" + id.toString()).then((response) => {
+  fetchAllQuizzes(context) {
+    return axios.get("http://127.0.0.1:8000/api/quizzes/retrieve/" + context.state.classroomIdToFetchQuizzes.toString()).then((response) => {
       let quizzes = response.data;
       quizzes.forEach((quiz, index) => {
         quizzes[index].created_date = moment(quizzes[index].created_date).format('MMMM D YYYY, HH:mm');
@@ -104,6 +111,9 @@ const getters = {
   },
   getMyQuizzes: (state) => {
     return state.myQuizzes
+  },
+  getQuizSettings: (state) => {
+    return state.quizSettings
   },
 };
 

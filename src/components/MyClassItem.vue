@@ -248,7 +248,8 @@
                 })
             },
             routeToQuizManagement() {
-                this.$router.replace({name: "ManageQuiz", params: {classroomId: this.classroom.id}});
+                this.setClassroomIdToFetchQuizzes(this.classroom.id);
+                this.$router.replace({name: "ManageQuiz"});
             }
         },
         mounted() {

@@ -101,7 +101,7 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters} from "vuex";
+    import {mapActions, mapGetters, mapMutations} from "vuex";
     import moment from 'moment';
 
     export default {
@@ -120,6 +120,7 @@
         methods: {
             ...mapActions('classroom', ['toggleEnrolled']),
             ...mapActions('quiz', ['fetchMyQuizzesAndAnswers']),
+            ...mapMutations('quiz', ['setQuizSettings']),
             disenroll() {
                 this.disenrollLoading = true;
                 this.toggleEnrolled(this.classroom.id).then(() => {
@@ -137,15 +138,17 @@
                 return moment(sentDate, 'MMMM D YYYY, HH:mm').isAfter(moment(deadline, 'MMMM D YYYY, HH:mm'));
             },
             startQuiz(quiz) {
+                let settings = {quiz: quiz, isPreview: false, answer: null, isCorrecting: false};
+                this.setQuizSettings(settings);
                 this.$router.push({
                     name: "Quiz",
-                    params: {quiz: quiz, isPreview: false, answer: null, isCorrecting: false}
                 });
             },
             previewQuiz(quizAnswer) {
+                let settings = {quiz: quizAnswer.quiz, isPreview: true, answer: quizAnswer, isCorrecting: false};
+                this.setQuizSettings(settings);
                 this.$router.push({
                     name: "Quiz",
-                    params: {quiz: quizAnswer.quiz, isPreview: true, answer: quizAnswer, isCorrecting: false}
                 });
             },
             canEnterQuiz(startDate) {

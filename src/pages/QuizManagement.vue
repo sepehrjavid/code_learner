@@ -71,7 +71,6 @@
     export default {
         components: {LoadingCircle, QuizManagementItem, AddQuiz},
         name: "QuizManagement",
-        props: ['classroomId'],
         data() {
             return {
                 showDialog: false,
@@ -86,7 +85,7 @@
             ...mapActions('quiz', ['fetchAllQuizzes', 'injectSelectedQuiz'])
         },
         mounted() {
-            this.fetchAllQuizzes(this.classroomId).finally(() => {
+            this.fetchAllQuizzes().finally(() => {
                 if (this.getAllQuizzes.length !== 0) {
                     this.injectSelectedQuiz(this.getAllQuizzes[0].id);
                     this.quizId = this.getAllQuizzes[0].id;

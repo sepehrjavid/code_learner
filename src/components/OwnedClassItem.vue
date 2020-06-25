@@ -36,15 +36,17 @@
 </template>
 
 <script>
-    import {mapActions} from "vuex";
+    import {mapActions, mapMutations} from "vuex";
 
     export default {
         props: ['classroom'],
         name: "OwnedClassItem",
         methods: {
             ...mapActions('classroom', ['quitOwnership']),
+            ...mapMutations('quiz', ['setClassroomIdToFetchQuizzes']),
             routeToQuizManagement() {
-                this.$router.replace({name: "ManageQuiz", params: {classroomId: this.classroom.id}});
+                this.setClassroomIdToFetchQuizzes(this.classroom.id);
+                this.$router.replace({name: "ManageQuiz"});
             }
         }
     }
