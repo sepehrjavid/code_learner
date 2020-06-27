@@ -115,6 +115,9 @@ const getters = {
   getQuizSettings: (state) => {
     return state.quizSettings
   },
+  getClassroomId: (state) => {
+    return state.classroomIdToFetchQuizzes
+  }
 };
 
 export default {

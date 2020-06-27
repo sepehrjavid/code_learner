@@ -51,7 +51,7 @@
         </q-page-sticky>
       </div>
       <q-dialog v-model="showDialog">
-        <AddQuiz @close="showDialog = false" :classroomId="classroomId"/>
+        <AddQuiz @close="showDialog = false" :classroomId="getClassroomId"/>
       </q-dialog>
     </div>
     <div v-else-if="getAllQuizzes.length === 0" style="height: 500px"
@@ -79,7 +79,7 @@
             }
         },
         computed: {
-            ...mapGetters('quiz', ['getAllQuizzes', 'getSelectedQuiz'])
+            ...mapGetters('quiz', ['getAllQuizzes', 'getSelectedQuiz', 'getClassroomId'])
         },
         methods: {
             ...mapActions('quiz', ['fetchAllQuizzes', 'injectSelectedQuiz'])

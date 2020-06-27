@@ -147,7 +147,7 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters} from 'vuex'
+    import {mapActions, mapGetters, mapMutations} from 'vuex'
 
     export default {
         name: "MyClassItem",
@@ -172,6 +172,7 @@
         },
         methods: {
             ...mapActions('classroom', ['deactivate', 'searchForUser', 'addOwnerToClass', 'editClass']),
+            ...mapMutations('quiz', ['setClassroomIdToFetchQuizzes']),
             deactivateClassroom() {
                 this.deleteLoading = true;
                 this.deactivate(this.classroom.id).then(() => {
