@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-center full-width q-ma-xl">
+  <div class="row justify-center full-width q-pa-xl">
     <div
       class="col-12 text-center architects full-width text-dark text-h2 q-my-lg text-weight-bold">
       Joined classes

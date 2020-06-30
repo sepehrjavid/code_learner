@@ -1,11 +1,15 @@
 <template>
-  <div v-if="!loading && user !== null">
-    <search-classroom/>
-    <my-classes :classes="this.user.created_classes"/>
-    <owned-classes :classes="this.user.owned_classes"/>
-    <joined-classes :classes="this.user.joined_classes"/>
-  </div>
-  <LoadingCircle v-else/>
+  <q-page>
+    <template v-if="!loading && user !== null">
+      <search-classroom/>
+      <my-classes :classes="this.user.created_classes"/>
+      <owned-classes :classes="this.user.owned_classes"/>
+      <joined-classes :classes="this.user.joined_classes"/>
+    </template>
+    <template v-else>
+      <LoadingCircle/>
+    </template>
+  </q-page>
 </template>
 
 <script>
