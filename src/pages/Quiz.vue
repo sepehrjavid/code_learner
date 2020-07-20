@@ -7,6 +7,9 @@
           <div class="text-body1 text-dark text-center bg-negative" v-if="isOverdue">Deadline: {{getQuizSettings.quiz.deadline}}</div>
           <div class="text-body1 text-dark text-center" v-else>Deadline: {{getQuizSettings.quiz.deadline}}</div>
         </template>
+        <template v-else>
+          <div class="text-body1 text-dark text-center">Score: {{getQuizSettings.answer.score}}</div>
+        </template>
         <div class="col-12 row justify-center q-mt-md full-width">
           <div style="width: 70%">
             <q-separator style="width: 100%; height: 2px;" color="dark"/>

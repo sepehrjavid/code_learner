@@ -65,7 +65,7 @@ const actions = {
       context.commit('setUserData', response.data);
       return response.data
     }).catch((response) => {
-      context.dispatch('logout');
+      context.dispatch('auth/logout', null, {root: true});
     })
   },
   editUser(context, payload) {

@@ -8,7 +8,12 @@ const state = {
     not_answered: [],
     answered: []
   },
-  quizSettings: {},
+  quizSettings: {
+    isPreview: null,
+    isCorrecting: null,
+    quiz: {},
+    answer: {}
+  },
   classroomIdToFetchQuizzes: null
 };
 
