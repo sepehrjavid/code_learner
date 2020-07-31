@@ -22,8 +22,8 @@ const actions = {
         localStorage.setItem("LearnOnlineToken", 'JWT ' + token);
         axios.defaults.headers.common['Authorization'] = 'JWT ' + token;
       }
-    ).catch((response) => {
-      throw response.data
+    ).catch((e) => {
+      throw e.response.data.non_field_errors[0]
     })
   },
   signup(context, payload) {
@@ -42,6 +42,7 @@ const actions = {
     axios.defaults.headers.common['Authorization'] = '';
     localStorage.removeItem("LearnOnlineToken");
     this.$router.push({name: "Home"});
+    context.commit('profile/setUserData', {}, {root: true});
   },
 };
 

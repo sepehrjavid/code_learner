@@ -116,7 +116,7 @@
                        :placeholder="choice" rounded outlined class="col-12 col-sm-6 q-mb-md q-pr-md q-pl-md"
                        v-model="questions[index].choices[choiceIndex]">
                 <template v-slot:append>
-                  <q-icon name="delete" class="cursor-pointer" @click="removeChoice(index)"/>
+                  <q-icon name="delete" class="cursor-pointer" @click="removeFinalChoice(index, choiceIndex)"/>
                 </template>
               </q-input>
             </div>
@@ -213,6 +213,11 @@
             removeQuestion(questionIndex) {
                 this.questions = this.questions.filter((choice, index) => {
                     return index !== questionIndex
+                })
+            },
+            removeFinalChoice(questionIndex, choiceIndex) {
+                this.questions[questionIndex].choices = this.questions[questionIndex].choices.filter((choice, index) => {
+                    return index !== choiceIndex
                 })
             },
             submitQuizOrMoveNext() {

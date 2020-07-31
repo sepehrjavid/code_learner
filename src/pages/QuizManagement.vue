@@ -54,10 +54,6 @@
         <AddQuiz @close="showDialog = false" :classroomId="getClassroomId"/>
       </q-dialog>
     </div>
-    <div v-else-if="getAllQuizzes.length === 0" style="height: 500px"
-         class="row justify-center full-width text-center architects text-weight-bold text-dark text-h5 full-height">
-      You have't created any quizzes yet!
-    </div>
     <LoadingCircle v-else/>
   </q-page>
 </template>
